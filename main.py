@@ -18,9 +18,13 @@ DISPLAYSURF = pygame.display.set_mode(DISPLAY_SIZE)
 pygame.display.set_caption('Brain Toaster')
 FONT = pygame.font.Font('FreeSansBold.ttf', 60)
 TEXT = FONT.render('START', True, COLOR['RED'], COLOR['YELLOW'])
+
+clock = pygame.time.Clock()
+
+DISPLAYSURF.fill(COLOR['GREEN'])
+DISPLAYSURF.blit(TEXT, TEXT_POS)
+
 while True:
-    DISPLAYSURF.fill(COLOR['GREEN'])
-    DISPLAYSURF.blit(TEXT, TEXT_POS)
     mousex = 0
     mousey = 0
     for event in pygame.event.get():
@@ -33,3 +37,4 @@ while True:
         mng = Manager(DISPLAYSURF)
         score = mng.get_score()
     pygame.display.update()
+    clock.tick(30)
