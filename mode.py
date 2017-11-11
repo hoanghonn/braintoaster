@@ -43,14 +43,14 @@ class MathGame(Mode):
 
         # add text to button
         smallText = pygame.font.Font('freesansbold.ttf', 20)
-        textSurfaceObj = smallText.render(self.result, True, GREEN)
+        textSurfaceObj = smallText.render(str(self.result), True, GREEN)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = ( (100 + 100/2), (700 + 100/2))
         screen.blit(textSurfaceObj, textRectObj)
 
         pygame.draw.rect(screen, WHITE, (350, 700, 100, 100))
-        fakeResult = self.result + '2' #change later
-        textSurfaceObj = smallText.render(fakeResult, True, GREEN)
+        fakeResult = self.result + 2                                        # change later
+        textSurfaceObj = smallText.render(str(fakeResult), True, GREEN)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = ((350 + 100 / 2), (700 + 100 / 2))
         screen.blit(textSurfaceObj, textRectObj)
