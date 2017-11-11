@@ -1,7 +1,5 @@
 # braintoaster
 
-dumachungmay
-
 Product for HackHolyoke 2017 
 
 
