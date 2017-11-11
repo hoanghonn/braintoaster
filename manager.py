@@ -1,4 +1,5 @@
 import random
+# import pygame
 from mode import *
 
 
@@ -10,10 +11,12 @@ class Manager:
     score = 0
 
     def __init__(self,screen):
+        # screen.fill((0, 0, 0))
+        # pygame.display.update()
         math_game = MathGame(screen)
-        #color_game = ColorGame(screen)
+        # color_game = ColorGame(screen)
         self.game.append(math_game)
-        #self.game.append(color_game)
+        # self.game.append(color_game)
 
         while self.health > 0:
             random_game = random.randrange(0, self.numberOfGame)
