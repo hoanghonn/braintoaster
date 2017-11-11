@@ -1,5 +1,9 @@
-import pygame
+import pygame, sys
 import random
+import helper
+from pygame import *
+from random import *
+
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
@@ -18,42 +22,61 @@ class Mode:
 class MathGame(Mode):
     math_string = ''
     result = ''
+    correct_answer_rect = pygame.Rect(100, 700, 100, 100)
+    wrong_answer_rect = pygame.Rect(350, 700, 100, 100)
+
+    color = [ ('RED', 255,0,0), ('BLUE', 0,0,255)]
 
     # implement init later
     def __init__(self, screen):
         self.math_string = self._get_string()
         self.result = self._calculate_result()
+        random_rect = randrange(0, 2)
+
+        if random_rect == 0:
+            self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
+
 
     def play_game(self):
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit
+                elif event.type == MOUSEBUTTONUP:
+                    mousex, mousey = event.pos
+                    if self.correct_answer_rect.collidepoint(mousex, mousey):
+                        return True
+                    elif self.wrong_answer_rect.collidepoint(mousex, mousey):
+                        return False
+
         return False
+
+    def set_up_game(self):
+        self.math_string = self._get_string()
+        self.result = self._calculate_result()
+        random_rect = randrange(0, 2)
+
+        if random_rect == 0:
+            self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
     def draw(self, screen):
         # draw math string
-        print('Start Drawing')
         screen.fill(BLUE)
 
-        fontObj = pygame.font.Font('freesansbold.ttf', 32)
-        textSurfaceObj = fontObj.render(self.math_string, True, RED)
-        textRectObj = textSurfaceObj.get_rect()
-        textRectObj.center = (250, 300)
-        screen.blit(textSurfaceObj, textRectObj)
+        font_blit(screen, (250, 300), 60, self.math_string, RED)
 
         # draw answers
-        pygame.draw.rect(screen, WHITE, (100, 700, 100, 100))
+        pygame.draw.rect(screen, WHITE, self.correct_answer_rect)
 
         # add text to button
-        smallText = pygame.font.Font('freesansbold.ttf', 20)
-        textSurfaceObj = smallText.render(str(self.result), True, GREEN)
-        textRectObj = textSurfaceObj.get_rect()
-        textRectObj.center = ( (100 + 100/2), (700 + 100/2))
-        screen.blit(textSurfaceObj, textRectObj)
+        font_blit(screen, self.correct_answer_rect, 30, str(self.result), GREEN)
 
-        pygame.draw.rect(screen, WHITE, (350, 700, 100, 100))
-        fakeResult = self.result + 2                                        # change later
-        textSurfaceObj = smallText.render(str(fakeResult), True, GREEN)
-        textRectObj = textSurfaceObj.get_rect()
-        textRectObj.center = ((350 + 100 / 2), (700 + 100 / 2))
-        screen.blit(textSurfaceObj, textRectObj)
+        pygame.draw.rect(screen, WHITE, self.wrong_answer_rect)
+        fakeResult = self.result + 2        # change later
+
+        font_blit(screen, self.wrong_answer_rect, 30, str(fakeResult), GREEN)
 
         pygame.display.update()
 

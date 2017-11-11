@@ -24,12 +24,14 @@ class Manager:
                 print("Error: No game in database")
 
             cur_game = self.game[random_game]
+            cur_game.set_up_game()
             cur_game.draw(screen)
             if cur_game.play_game():
                 self.health += 2
                 self.score += 10
             else:
                 self.health -= 10
+            print(self.health)
 
     def get_score(self):
         return self.score
