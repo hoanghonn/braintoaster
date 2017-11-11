@@ -77,7 +77,7 @@ class MathGame(Mode):
         if temp[1] == "+":
             return int(temp[0]) + int(temp[2])
         elif temp[1] == "-":
-            return int(temp[0]) + int(temp[2])
+            return int(temp[0]) - int(temp[2])
         elif temp[1] == "*":
             return int(temp[0]) * int(temp[2])
         else:
