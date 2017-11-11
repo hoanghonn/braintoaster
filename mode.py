@@ -1,13 +1,5 @@
 import pygame
-<<<<<<< HEAD
-import helper
-BLUE = (0, 0, 255)
-RED = (255, 0, 0)
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-=======
 import random
->>>>>>> 50b3310b2c9cfaca5faacb7aa699a1d877ef8c22
 
 
 class Mode():
@@ -28,19 +20,7 @@ class MathGame(Mode):
         self.math_string = self._get_string()
         self.result = self._calculate_result()
 
-
     def play_game(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    helper.terminate()
-                elif event.type == MOUSEBUTTONUP:
-                    mousex, mousey = event.pos
-
-                # check if user clicked correct answer
-                
-
-
         return False
 
     def draw(self, screen):
@@ -72,8 +52,6 @@ class MathGame(Mode):
         screen.blit(textSurfaceObj, textRectObj)
 
         pygame.display.update()
-
-
 
     def _calculate_result(self):
         if len(self.math_string) < 7:
@@ -116,9 +94,6 @@ class MathGame(Mode):
         else:
             self.math_string += str(x) + " / " + str(y) + " = "
         return self.math_string
-
-
-
 
 
 class ColorGame(Mode):
