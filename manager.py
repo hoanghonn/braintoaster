@@ -4,16 +4,16 @@ from mode import *
 
 class Manager:
 
-    numberOfGame = 3
+    numberOfGame = 1
     health = 100
     game = []
     score = 0
 
     def __init__(self,screen):
         math_game = MathGame(screen)
-        color_game = ColorGame(screen)
+        #color_game = ColorGame(screen)
         self.game.append(math_game)
-        self.game.append(color_game)
+        #self.game.append(color_game)
 
         while self.health > 0:
             random_game = random.randrange(0, self.numberOfGame)
@@ -21,7 +21,8 @@ class Manager:
                 print("Error: No game in database")
 
             cur_game = self.game[random_game]
-            if cur_game.playGame():
+            cur_game.draw(screen)
+            if cur_game.play_game():
                 self.health += 2
                 self.score += 10
             else:
