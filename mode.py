@@ -36,7 +36,6 @@ class MathGame(Mode):
         if random_rect == 0:
             self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
-
     def play_game(self):
 
         while True:
