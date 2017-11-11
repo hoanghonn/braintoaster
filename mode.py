@@ -1,5 +1,5 @@
 import pygame
-
+import helper
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
@@ -26,8 +26,15 @@ class MathGame(Mode):
 
 
     def play_game(self):
-        # while True:
-        #     for event in pygame.event.get()
+        while True:
+            for event in pygame.event.get()
+                if event.type == QUIT:
+                    helper.terminate()
+                elif event.type = MOUSEBUTTONUP:
+                    mousex, mousey = event.pos
+
+                # check if user clicked correct answer
+                
 
 
         return False
