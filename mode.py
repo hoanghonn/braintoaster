@@ -70,12 +70,18 @@ class MathGame(Mode):
         pygame.draw.rect(screen, WHITE, self.correct_answer_rect)
 
         # add text to button
-        font_blit(screen, self.correct_answer_rect, 30, str(self.result), GREEN)
+        correct_answer_rect = (self.correct_answer_rect.left + self.correct_answer_rect.widt/2,
+                               self.correct_answer_rect.top + self.correct_answer_rect.height/2)
+        font_blit(screen, correct_answer_rect, str(self.result), GREEN)
 
         pygame.draw.rect(screen, WHITE, self.wrong_answer_rect)
-        fakeResult = self.result + 2        # change later
 
-        font_blit(screen, self.wrong_answer_rect, 30, str(fakeResult), GREEN)
+        rand_diff = randint(-10, 11)
+        fakeResult = self.result + rand_diff        # change later
+
+        wrong_answer_rect = (self.wrong_answer_rect.left + self.wrong_answer_rect.widt/2,
+                             self.wrong_answer_rect.top + self.wrong_answer_rect.height/2)
+        font_blit(screen, wrong_answer_rect, 30, str(fakeResult), GREEN)
 
         pygame.display.update()
 
