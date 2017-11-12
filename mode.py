@@ -471,3 +471,5 @@ class AdvancedDontTouchGame(Mode):
         # draw score
         draw_score(screen, score)
         pygame.display.update()
+
+

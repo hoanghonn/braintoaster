@@ -17,9 +17,6 @@ TEXT_POS = (150, 100)
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode(DISPLAY_SIZE)
 pygame.display.set_caption('Brain Toaster')
-FONT = pygame.font.Font('Digitalt.ttf', 100)
-TEXT = FONT.render('START', True, COLOR['RED'], COLOR['YELLOW'])
-
 clock = pygame.time.Clock()
 
 score = -1
