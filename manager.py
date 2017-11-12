@@ -52,9 +52,7 @@ class Manager:
                 else:
                     self.health += 1
                 self.score += 10
-
-                damn.play(0, 1000, 0)
-
+                damn.play()
             else:
                 self.health -= 10
 
