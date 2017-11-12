@@ -53,7 +53,7 @@ while True:
 
     # draw score
     if score != -1:
-        print_score = 'Your Score: ' + str(score)
+        print_score = 'Score: ' + str(score)
         score_rect = (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.6)
         font_blit(DISPLAYSURF, score_rect, FONT_BIG, print_score, YELLOW)
 
