@@ -61,6 +61,7 @@ class MathGame(Mode):
             self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
     def draw(self, screen):
+        screen.fill(BLUE)
         # draw math string
         font_blit(screen, (250, 300), 60, self.math_string, RED)
 
@@ -68,16 +69,16 @@ class MathGame(Mode):
         pygame.draw.rect(screen, WHITE, self.correct_answer_rect)
 
         # add text to button
-        correct_answer_rect = (self.correct_answer_rect.left + self.correct_answer_rect.widt/2,
+        correct_answer_rect = (self.correct_answer_rect.left + self.correct_answer_rect.width/2,
                                self.correct_answer_rect.top + self.correct_answer_rect.height/2)
-        font_blit(screen, correct_answer_rect, str(self.result), GREEN)
+        font_blit(screen, correct_answer_rect,30, str(self.result), GREEN)
 
         pygame.draw.rect(screen, WHITE, self.wrong_answer_rect)
 
         rand_diff = randint(-10, 11)
         fakeResult = self.result + rand_diff        # change later
 
-        wrong_answer_rect = (self.wrong_answer_rect.left + self.wrong_answer_rect.widt/2,
+        wrong_answer_rect = (self.wrong_answer_rect.left + self.wrong_answer_rect.width/2,
                              self.wrong_answer_rect.top + self.wrong_answer_rect.height/2)
         font_blit(screen, wrong_answer_rect, 30, str(fakeResult), GREEN)
 
@@ -112,7 +113,7 @@ class MathGame(Mode):
     def _get_string(self):
         self.math_string = ""
         x = randrange(0, 10)
-        y = randrange(0, 10)
+        y = randrange(1, 10)
         opran = randrange(0, 4)
 
         if opran == 1:
