@@ -208,3 +208,137 @@ class ColorGame(Mode):
                                   self.FOUR_COLOR[3][3]), (255, 690, 235, 300))
 
         pygame.display.update()
+
+
+SCREEN_WIDTH = 500
+SCREEN_HEIGHT = 1000
+class OperatorGame(Mode):
+
+    missing_string = ''
+    result = ''
+
+    plus_rec = pygame.Rect(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2, 150, 150)
+    minus_rec = pygame.Rect(SCREEN_WIDTH - (SCREEN_WIDTH/5) - 140, SCREEN_HEIGHT/2, 150, 150)
+    multiply_rec = pygame.Rect(SCREEN_WIDTH / 5, SCREEN_HEIGHT/2+160, 150, 150)
+    divide_rec = pygame.Rect(SCREEN_WIDTH - (SCREEN_WIDTH/5) - 140, SCREEN_HEIGHT/2+160, 150, 150)
+    ope = ["+", "-", "*", "/"]
+
+    def __init__(self):
+        self.missing_string = self._get_string()
+        self.result = self._get_operator()
+        self.result_index = self.ope.index(self.result)
+
+    def play_game(self, screen, health):
+        cur_health = health
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                elif event.type == MOUSEBUTTONUP:
+                    mousex, mousey = event.pos
+                    if self.plus_rec.collidepoint(mousex, mousey):
+                        if self.result_index == 0:
+                            return True, cur_health
+                        else:
+                            return False,cur_health
+                    if self.minus_rec.collidepoint(mousex, mousey):
+                        if self.result_index == 1:
+                            return True, cur_health
+                        else:
+                            return False, cur_health
+                    if self.multiply_rec.collidepoint(mousex, mousey):
+                        if self.result_index == 2:
+                            return True, cur_health
+                        else:
+                            return False, cur_health
+                    if self.divide_rec.collidepoint(mousex, mousey):
+                        if self.result_index == 3:
+                            return True, cur_health
+                        else:
+                            return False, cur_health
+
+                else: self.draw(screen, cur_health)
+            self.draw(screen, health)
+
+    def set_up_game(self):
+        self.missing_string = self._get_string()
+        self.result = self._get_operator()
+
+    def draw(self, screen, health):
+        screen.fill((69, 187, 255))
+        # draw math string
+        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), 60, self._update_missing_string(self.missing_string), RED)
+
+        # draw answers
+        pygame.draw.rect(screen, WHITE, self.plus_rec)
+        pygame.draw.rect(screen, WHITE, self.minus_rec)
+        pygame.draw.rect(screen, WHITE, self.multiply_rec)
+        pygame.draw.rect(screen, WHITE, self.divide_rec)
+
+        # add text to button
+        plus_rect = (self.plus_rec.left + self.plus_rec.width/2,
+                               self.plus_rec.top + self.plus_rec.height/2)
+        font_blit(screen, plus_rect, 30, "+", BROWN)
+
+        minus_rect = (self.minus_rec.left + self.minus_rec.width / 2,
+                     self.minus_rec.top + self.minus_rec.height / 2)
+        font_blit(screen, minus_rect, 30, "-", BROWN)
+
+        mul_rect = (self.multiply_rec.left + self.multiply_rec.width / 2,
+                     self.multiply_rec.top + self.multiply_rec.height / 2)
+        font_blit(screen, mul_rect, 30, "*", BROWN)
+
+        divide_rect = (self.divide_rec.left + self.divide_rec.width / 2,
+                     self.divide_rec.top + self.divide_rec.height / 2)
+        font_blit(screen, divide_rect, 30, "/", BROWN)
+
+        # draw health
+        drawHealth(screen, health)
+        # draw clock
+        # drawTime(clock, screen)
+
+        pygame.display.update()
+
+    def _update_missing_string(self, string):
+        if len(self.missing_string) < 9:
+            print("Error: not a valid missing_string")
+        temp = string
+        operator_list = ["+", "-", "*", "/"]
+        for chr in string:
+            if chr in operator_list:
+                temp = temp.replace(chr, "  ")
+                return temp
+        return temp
+
+    def _get_operator(self):
+        if len(self.missing_string) < 9:
+            print("Error: not a valid missing_string")
+
+        operator_list = ["+", "-", "*", "/"]
+        for chr in self.missing_string:
+            if chr in operator_list:
+                return chr
+        return -1
+
+    def _get_string(self):
+        self.missing_string = ""
+
+        x = randrange(1, 10)
+        y = randrange(1, 10)
+        opran = randrange(0, 4)
+
+        if opran == 1:
+            res = x + y
+            self.missing_string += str(x) + " + " + str(y) + " = " + str(res)
+        elif opran == 2:
+            res = x - y
+            self.missing_string += str(x) + " - " + str(y) + " = " + str(res)
+        elif opran == 3:
+            res = x*y
+            self.missing_string += str(x) + " * " + str(y) + " = " + str(res)
+        else:
+            res = x/y
+            self.missing_string += str(x) + " / " + str(y) + " = " + str(res)
+        return self.missing_string
+
+

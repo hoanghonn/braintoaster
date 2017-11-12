@@ -6,16 +6,18 @@ from random import *
 
 class Manager:
 
-    numberOfGame = 1
+    numberOfGame = 2
     health = 100
     game = []
     score = 0
 
     def __init__(self, screen):
         math_game = MathGame()
-        color_game = ColorGame()
+        # color_game = ColorGame()
+        ope_game = OperatorGame()
         self.game.append(math_game)
-        self.game.append(color_game)
+        # self.game.append(color_game)
+        self.game.append(ope_game)
 
         while self.health > 0:
             random_game = randrange(0, self.numberOfGame)

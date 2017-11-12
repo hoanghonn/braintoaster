@@ -18,7 +18,7 @@ def terminate():
     sys.exit()
 
 def drawHealth(screen, health):
-    health_width = health / 100.0 * 450
+    health_width = health / 100.0 * 500
     health_bar = (0,0, health_width, 50)
 
     pygame.draw.rect(screen, (255,0,0), health_bar)
