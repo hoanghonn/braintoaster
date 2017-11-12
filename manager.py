@@ -35,7 +35,7 @@ class Manager:
             random_hard_game = randrange(0, self.numberOfHardGame)
             if len(self.game) <= 0:
                 print("Error: No game in database")
-            if self.score > 20:
+            if self.score > 50:
                 cur_game = self.hard_game[random_hard_game]
             else:
                 cur_game = self.game[random_game]
