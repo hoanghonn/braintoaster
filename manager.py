@@ -1,5 +1,6 @@
 import random
 import mode
+import pygame
 from mode import *
 from random import *
 
@@ -30,6 +31,9 @@ class Manager:
         self.game.append(ope_game)
         self.game.append(dont_game)
 
+        # pygame.mixer.init(44100, -16, 2, 2048)
+        damn = pygame.mixer.Sound('/asset/damnson.mp3')
+
         while self.health > 0:
             random_game = randrange(0, self.numberOfGame)
             random_hard_game = randrange(0, self.numberOfHardGame)
@@ -48,10 +52,11 @@ class Manager:
                 else:
                     self.health += 1
                 self.score += 10
+
+                damn.play(0, 1000, 0)
+
             else:
                 self.health -= 10
-
-            print(self.health)
 
     def get_score(self):
         return self.score
