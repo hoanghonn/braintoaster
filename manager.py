@@ -2,6 +2,7 @@ import random, mode
 from mode import *
 from random import *
 
+
 class Manager:
 
     numberOfGame = 1
@@ -10,9 +11,9 @@ class Manager:
     score = 0
 
     def __init__(self,screen):
-        #math_game = MathGame(screen)
+        math_game = MathGame(screen)
         color_game = ColorGame(screen)
-        #self.game.append(math_game)
+        self.game.append(math_game)
         self.game.append(color_game)
 
         while self.health > 0:
