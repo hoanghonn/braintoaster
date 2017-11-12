@@ -111,8 +111,8 @@ class MathGame(Mode):
 
     def _get_string(self):
         self.math_string = ""
-        x = randrange(0, 100)
-        y = randrange(0, 100)
+        x = randrange(0, 10)
+        y = randrange(0, 10)
         opran = randrange(0, 4)
 
         if opran == 1:
