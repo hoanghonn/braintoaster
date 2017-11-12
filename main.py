@@ -21,6 +21,8 @@ clock = pygame.time.Clock()
 
 score = -1
 highScore = 0
+bg = pygame.mixer.music('/asset/bgmusic.mp3')
+bg.play()
 
 while True:
     mousex = 0
