@@ -26,5 +26,10 @@ def draw_health(screen, health):
     pygame.draw.rect(screen, (255, 0, 0), health_bar)
 
 
-def draw_time(screen, sec):
-    font_blit(screen, (SCREEN_WIDTH * 0.85, SCREEN_HEIGHT * 0.15), 80, str(sec), (0, 0, 0))
+def draw_time(screen,sec):
+    font_blit(screen,(SCREEN_WIDTH * 0.85, SCREEN_HEIGHT * 0.15),80,str(sec),(0,0,0))
+
+def draw_score(screen, score):
+    print_score = 'Score: ' + str(score)
+    score_rect = (SCREEN_WIDTH / 5, SCREEN_HEIGHT * 0.1)
+    font_blit(screen, score_rect, FONT_SMALL, print_score, YELLOW)

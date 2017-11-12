@@ -30,7 +30,7 @@ class MathGame(Mode):
         if random_rect == 0:
             self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
-    def play_game(self, screen, health):
+    def play_game(self, screen, health, score):
         cur_sec = MAX_TIME
         cur_time = pygame.time.get_ticks()
         cur_health = health
@@ -50,7 +50,7 @@ class MathGame(Mode):
             if 0.95 < (temp_time - cur_time)/1000:
                 cur_time = temp_time
                 cur_sec -= 1
-            self.draw(screen, cur_health, cur_sec)
+            self.draw(screen, cur_health, cur_sec, score)
 
     def set_up_game(self):
         self.math_string = self._get_string()
@@ -64,7 +64,7 @@ class MathGame(Mode):
         if random_rect == 0:
             self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
-    def draw(self, screen, health, sec):
+    def draw(self, screen, health, sec, score):
         screen.fill(CYAN)
         # draw math string
         font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), FONT_BIG, self.math_string, PINK)
@@ -87,6 +87,9 @@ class MathGame(Mode):
         draw_health(screen, health)
         # draw clock
         draw_time(screen, sec)
+        # draw score
+        draw_score(screen, score)
+
         pygame.display.update()
 
     def _calculate_result(self):
@@ -154,7 +157,8 @@ class ColorGame(Mode):
         self.ANSWER_COLOR = randint(0, 3)
 
     # implement init later
-    def play_game(self, screen, health):
+
+    def play_game(self,screen,health, score):
         mousex = 0
         mousey = 0
         cur_health = health
@@ -187,23 +191,27 @@ class ColorGame(Mode):
                             return True, cur_health
                         else: return False, cur_health
             # cur_health = clock
+
             if cur_sec == 0:
                 return False, cur_health
             temp_time = pygame.time.get_ticks()
             if 0.95 < (temp_time - cur_time)/1000:
                 cur_time = temp_time
                 cur_sec -= 1
-            self.draw(screen, cur_health, cur_sec)
+            self.draw(screen, cur_health, cur_sec, score)
 
-    def draw(self, screen, health, sec):
+
+    def draw(self,screen,health,sec, score):
         screen.fill(WHITE)
         font_blit(screen, (SCREEN_WIDTH*0.5,SCREEN_HEIGHT*0.2), FONT_BIG, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
         pygame.draw.rect(screen, (self.FOUR_COLOR[0][1], self.FOUR_COLOR[0][2], self.FOUR_COLOR[0][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[1][1], self.FOUR_COLOR[1][2], self.FOUR_COLOR[1][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[2][1], self.FOUR_COLOR[2][2], self.FOUR_COLOR[2][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[3][1], self.FOUR_COLOR[3][2], self.FOUR_COLOR[3][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
-        draw_health(screen, health)
-        draw_time(screen, sec)
+
+        draw_health(screen,health)
+        draw_time(screen,sec)
+        draw_score(screen, score)
         pygame.display.update()
 
 
@@ -223,7 +231,7 @@ class OperatorGame(Mode):
         self.result = self._get_operator()
         self.result_index = self.ope.index(self.result)
 
-    def play_game(self, screen, health):
+    def play_game(self, screen, health, score):
         cur_health = health
         cur_time = pygame.time.get_ticks()
         cur_sec = MAX_TIME
@@ -255,20 +263,20 @@ class OperatorGame(Mode):
                             return False, cur_health
 
                 else:
-                    self.draw(screen, cur_health, cur_sec)
+                    self.draw(screen, cur_health, cur_sec, score)
             if cur_sec == 0:
                 return False, cur_health
             temp_time = pygame.time.get_ticks()
             if 0.95 < (temp_time - cur_time) / 1000:
                 cur_time = temp_time
                 cur_sec -= 1
-            self.draw(screen, cur_health, cur_sec)
+            self.draw(screen, cur_health, cur_sec, score)
 
     def set_up_game(self):
         self.missing_string = self._get_string()
         self.result = self._get_operator()
 
-    def draw(self, screen, health, sec):
+    def draw(self, screen, health, sec, score):
         screen.fill((69, 187, 255))
         # draw math string
         font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), FONT_BIG, self._update_missing_string(self.missing_string), PINK)
@@ -296,6 +304,8 @@ class OperatorGame(Mode):
         draw_health(screen, health)
         # draw clock
         draw_time(screen, sec)
+        # draw score
+        draw_score(screen, score)
 
         pygame.display.update()
 
@@ -349,7 +359,7 @@ class DontTouchGame(Mode):
     def __init__(self):
         super.__init__
 
-    def play_game(self, screen, health):
+    def play_game(self, screen, health, score):
         cur_sec = MAX_TIME
         cur_time = pygame.time.get_ticks()
         cur_health = health
@@ -366,12 +376,12 @@ class DontTouchGame(Mode):
             if 0.95 < (temp_time - cur_time)/1000:
                 cur_time = temp_time
                 cur_sec -= 1
-            self.draw(screen, cur_health, cur_sec)
+            self.draw(screen, cur_health, cur_sec, score)
 
     def set_up_game(self):
         instruction = 'do not touch'
 
-    def draw(self, screen, health, sec):
+    def draw(self, screen, health, sec, score):
         screen.fill(LIGHT_GREEN)
         # draw instruction
         font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), FONT_SMALL, self.instruction, RED)
@@ -383,6 +393,8 @@ class DontTouchGame(Mode):
         draw_health(screen, health)
         # draw clock
         draw_time(screen, sec)
+        # draw score
+        draw_score(screen, score)
         pygame.display.update()
 
 
