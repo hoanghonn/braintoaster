@@ -24,9 +24,9 @@ class Mode:
 class MathGame(Mode):
     math_string = ''
     result = ''
-    correct_answer_rect = pygame.Rect(SCREEN_WIDTH / 4, SCREEN_HEIGHT * 7/10, BUTTON_SIZE, BUTTON_SIZE)
-    wrong_answer_rect = pygame.Rect(SCREEN_WIDTH / 4 + SCREEN_WIDTH/2,
-                                    SCREEN_HEIGHT * 7/10,
+    correct_answer_rect = pygame.Rect(SCREEN_WIDTH / 4 - BUTTON_SIZE/2, SCREEN_HEIGHT * 7/10 - BUTTON_SIZE/2, BUTTON_SIZE, BUTTON_SIZE)
+    wrong_answer_rect = pygame.Rect(SCREEN_WIDTH * 0.75 - BUTTON_SIZE/2,
+                                    SCREEN_HEIGHT * 7/10 - BUTTON_SIZE/2,
                                     BUTTON_SIZE, BUTTON_SIZE)
     fake_result = ''
 
@@ -76,29 +76,31 @@ class MathGame(Mode):
     def draw(self, screen, health, sec):
         screen.fill(CYAN)
         # draw math string
-        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), 80, self.math_string, RED)
+        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), FONT_BIG, self.math_string, PINK)
 
         # draw answers
-        correct_answer_rect = (self.correct_answer_rect.left - self.correct_answer_rect.width / 2,
-                               self.correct_answer_rect.top - self.correct_answer_rect.height / 2,
+        correct_answer_center = (self.correct_answer_rect.left + self.correct_answer_rect.width / 2,
+                               self.correct_answer_rect.top + self.correct_answer_rect.height / 2,
                                self.correct_answer_rect.width, self.correct_answer_rect.height)
-        pygame.draw.rect(screen, WHITE, correct_answer_rect)
+        pygame.draw.rect(screen, WHITE, self.correct_answer_rect)
 
         # add text to button
 
-        font_blit(screen, self.correct_answer_rect, 40, str(self.result), BROWN)
+        font_blit(screen, correct_answer_center, FONT_SMALL, str(self.result), BROWN)
 
-        wrong_answer_rect = (self.wrong_answer_rect.left - self.wrong_answer_rect.width / 2,
-                             self.wrong_answer_rect.top - self.wrong_answer_rect.height / 2,
+        wrong_answer_center = (self.wrong_answer_rect.left + self.wrong_answer_rect.width / 2,
+                             self.wrong_answer_rect.top + self.wrong_answer_rect.height / 2,
                              self.wrong_answer_rect.width, self.wrong_answer_rect.height)
-        pygame.draw.rect(screen, WHITE, wrong_answer_rect)
+        pygame.draw.rect(screen, WHITE, self.wrong_answer_rect)
+
+        font_blit(screen, wrong_answer_center, FONT_SMALL, str(self.fake_result), BROWN)
 
         # draw health
         draw_health(screen, health)
         # draw clock
         draw_time(screen, sec)
 
-        font_blit(screen, self.wrong_answer_rect, 40, str(self.fake_result), BROWN)
+
 
         pygame.display.update()
 
@@ -150,8 +152,8 @@ class ColorGame(Mode):
     COLOR = [('RED', 251, 57, 88),
              ('GREEN', 109, 201, 147),
              ('BLUE', 69, 142, 255),
-             ('PURPLE', 255, 0, 255),
-             ('YELLOW', 255, 200, 56),
+             ('PURPLE', 195, 42, 163),
+             ('YELLOW', 247, 180, 44),
              ('BROWN', 155, 105, 84),
              ('BLACK', 0, 0, 0)]
     FOUR_COLOR = sample(COLOR, 4)
@@ -208,7 +210,7 @@ class ColorGame(Mode):
 
     def draw(self,screen,health,sec):
         screen.fill(WHITE)
-        font_blit(screen, (SCREEN_WIDTH*0.5,SCREEN_HEIGHT*0.2), 80, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
+        font_blit(screen, (SCREEN_WIDTH*0.5,SCREEN_HEIGHT*0.2), FONT_BIG, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
         pygame.draw.rect(screen, (self.FOUR_COLOR[0][1], self.FOUR_COLOR[0][2], self.FOUR_COLOR[0][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[1][1], self.FOUR_COLOR[1][2], self.FOUR_COLOR[1][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[2][1], self.FOUR_COLOR[2][2], self.FOUR_COLOR[2][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
@@ -216,3 +218,146 @@ class ColorGame(Mode):
         draw_health(screen,health)
         draw_time(screen,sec)
         pygame.display.update()
+
+
+SCREEN_WIDTH = 500
+SCREEN_HEIGHT = 1000
+class OperatorGame(Mode):
+
+    missing_string = ''
+    result = ''
+
+    plus_rec = pygame.Rect(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2, 150, 150)
+    minus_rec = pygame.Rect(SCREEN_WIDTH - (SCREEN_WIDTH/5) - 140, SCREEN_HEIGHT/2, 150, 150)
+    multiply_rec = pygame.Rect(SCREEN_WIDTH / 5, SCREEN_HEIGHT/2+160, 150, 150)
+    divide_rec = pygame.Rect(SCREEN_WIDTH - (SCREEN_WIDTH/5) - 140, SCREEN_HEIGHT/2+160, 150, 150)
+    ope = ["+", "-", "*", "/"]
+
+    def __init__(self):
+        self.missing_string = self._get_string()
+        self.result = self._get_operator()
+        self.result_index = self.ope.index(self.result)
+
+    def play_game(self, screen, health):
+        cur_health = health
+        cur_time = pygame.time.get_ticks()
+        cur_sec = MAX_TIME
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                elif event.type == MOUSEBUTTONUP:
+                    mousex, mousey = event.pos
+                    if self.plus_rec.collidepoint(mousex, mousey):
+                        if self.result_index == 0:
+                            return True, cur_health
+                        else:
+                            return False,cur_health
+                    if self.minus_rec.collidepoint(mousex, mousey):
+                        if self.result_index == 1:
+                            return True, cur_health
+                        else:
+                            return False, cur_health
+                    if self.multiply_rec.collidepoint(mousex, mousey):
+                        if self.result_index == 2:
+                            return True, cur_health
+                        else:
+                            return False, cur_health
+                    if self.divide_rec.collidepoint(mousex, mousey):
+                        if self.result_index == 3:
+                            return True, cur_health
+                        else:
+                            return False, cur_health
+
+                else:
+                    self.draw(screen, cur_health, cur_sec)
+            if cur_sec == 0:
+                return False, cur_health
+            temp_time = pygame.time.get_ticks()
+            if 0.95 < (temp_time - cur_time) / 1000:
+                cur_time = temp_time
+                cur_sec -= 1
+            self.draw(screen, cur_health, cur_sec)
+
+    def set_up_game(self):
+        self.missing_string = self._get_string()
+        self.result = self._get_operator()
+
+    def draw(self, screen, health, sec):
+        screen.fill((69, 187, 255))
+        # draw math string
+        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), FONT_BIG, self._update_missing_string(self.missing_string), PINK)
+
+        # draw answers
+        pygame.draw.rect(screen, WHITE, self.plus_rec)
+        pygame.draw.rect(screen, WHITE, self.minus_rec)
+        pygame.draw.rect(screen, WHITE, self.multiply_rec)
+        pygame.draw.rect(screen, WHITE, self.divide_rec)
+
+        # add text to button
+        plus_rect = (self.plus_rec.left + self.plus_rec.width/2,
+                               self.plus_rec.top + self.plus_rec.height/2)
+        font_blit(screen, plus_rect, FONT_SMALL, "+", BROWN)
+
+        minus_rect = (self.minus_rec.left + self.minus_rec.width / 2,
+                     self.minus_rec.top + self.minus_rec.height / 2)
+        font_blit(screen, minus_rect, FONT_SMALL, "-", BROWN)
+
+        mul_rect = (self.multiply_rec.left + self.multiply_rec.width / 2,
+                     self.multiply_rec.top + self.multiply_rec.height / 2)
+        font_blit(screen, mul_rect, FONT_SMALL, "*", BROWN)
+
+        divide_rect = (self.divide_rec.left + self.divide_rec.width / 2,
+                     self.divide_rec.top + self.divide_rec.height / 2)
+        font_blit(screen, divide_rect, FONT_SMALL, "/", BROWN)
+
+        # draw health
+        draw_health(screen, health)
+        # draw clock
+        draw_time(screen, sec)
+
+        pygame.display.update()
+
+    def _update_missing_string(self, string):
+        if len(self.missing_string) < 9:
+            print("Error: not a valid missing_string")
+        temp = string
+        operator_list = ["+", "-", "*", "/"]
+        for chr in string:
+            if chr in operator_list:
+                temp = temp.replace(chr, "  ")
+                return temp
+        return temp
+
+    def _get_operator(self):
+        if len(self.missing_string) < 9:
+            print("Error: not a valid missing_string")
+
+        operator_list = ["+", "-", "*", "/"]
+        for chr in self.missing_string:
+            if chr in operator_list:
+                return chr
+        return -1
+
+    def _get_string(self):
+        self.missing_string = ""
+
+        x = randrange(1, 10)
+        y = randrange(1, 10)
+        opran = randrange(0, 4)
+
+        if opran == 1:
+            res = x + y
+            self.missing_string += str(x) + " + " + str(y) + " = " + str(res)
+        elif opran == 2:
+            res = x - y
+            self.missing_string += str(x) + " - " + str(y) + " = " + str(res)
+        elif opran == 3:
+            res = x*y
+            self.missing_string += str(x) + " * " + str(y) + " = " + str(res)
+        else:
+            res = x/y
+            self.missing_string += str(x) + " / " + str(y) + " = " + str(res)
+        return self.missing_string
+
+

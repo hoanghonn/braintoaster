@@ -6,7 +6,7 @@ from random import *
 
 class Manager:
 
-    numberOfGame = 2
+    numberOfGame = 3
     health = 100
     game = []
     score = 0
@@ -14,8 +14,10 @@ class Manager:
     def __init__(self, screen):
         math_game = MathGame()
         color_game = ColorGame()
+        ope_game = OperatorGame()
         self.game.append(math_game)
         self.game.append(color_game)
+        self.game.append(ope_game)
 
         while self.health > 0:
             random_game = randrange(0, self.numberOfGame)
@@ -27,11 +29,10 @@ class Manager:
             result = cur_game.play_game(screen, self.health)
             self.health = result[1]
             if result[0]:
-                self.health += 2
                 if self.health + 2 > 100:
                     self.health = 100
                 else:
-                    self.health += 2
+                    self.health += 1
                 self.score += 10
             else:
                 self.health -= 10
