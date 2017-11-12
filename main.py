@@ -23,6 +23,7 @@ TEXT = FONT.render('START', True, COLOR['RED'], COLOR['YELLOW'])
 clock = pygame.time.Clock()
 
 score = -1
+highScore = 0
 
 while True:
     mousex = 0
@@ -52,7 +53,7 @@ while True:
 
     # draw score
     if score != -1:
-        print_score = 'Score: ' + str(score)
+        print_score = 'Your Score: ' + str(score)
         score_rect = (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.6)
         font_blit(DISPLAYSURF, score_rect, FONT_BIG, print_score, YELLOW)
 
@@ -65,5 +66,12 @@ while True:
     if start_rect.collidepoint(mousex, mousey):
         mng = Manager(DISPLAYSURF)
         score = mng.get_score()
+
+    if score > highScore:
+        highScore = score
+    print_highScore = 'High Score: ' + str(highScore)
+    highSCore_rect = (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.7)
+    font_blit(DISPLAYSURF, highSCore_rect, FONT_SMALL, print_highScore, YELLOW)
+
     pygame.display.update()
     clock.tick(30)
