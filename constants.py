@@ -11,6 +11,7 @@ BLACK   = (0,   0,  0)
 WHITE   = (222, 209, 193)
 PINK    = (252, 69, 117)
 LIGHT_GREEN = (220, 248, 198)
+QUORA_RED =  (170, 34, 0)
 
 # screen size
 SCREEN_WIDTH = 450

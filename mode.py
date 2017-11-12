@@ -319,7 +319,7 @@ class OperatorGame(Mode):
         for chr in string:
             if check == 0 and chr in operator_list:
                 check = 1
-                temp = temp.replace(chr, "  ")
+                temp = temp[:string.index(chr)] + " " + temp[string.index(chr)+1:]
                 return temp
         return temp
 
@@ -402,3 +402,72 @@ class DontTouchGame(Mode):
         pygame.display.update()
 
 
+class AdvancedDontTouchGame(Mode):
+    instruction = 'do not touch'
+    not_rec = pygame.Rect(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 6, SCREEN_WIDTH - SCREEN_WIDTH * 0.9, SCREEN_HEIGHT - SCREEN_HEIGHT*4/5)
+    plus_rec = pygame.Rect(SCREEN_WIDTH / 6, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 3, SCREEN_WIDTH / 3)
+    minus_rec = pygame.Rect((SCREEN_WIDTH / 6) + (SCREEN_WIDTH / 3) + 10, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 3,
+                            SCREEN_WIDTH / 3)
+    multiply_rec = pygame.Rect(SCREEN_WIDTH / 6, SCREEN_HEIGHT / 2 + + (SCREEN_WIDTH / 3) + 10, SCREEN_WIDTH / 3,
+                               SCREEN_WIDTH / 3)
+    divide_rec = pygame.Rect((SCREEN_WIDTH / 6) + (SCREEN_WIDTH / 3) + 10, SCREEN_HEIGHT / 2 + (SCREEN_WIDTH / 3) + 10,
+                             SCREEN_WIDTH / 3, SCREEN_WIDTH / 3)
+
+
+    def __init__(self):
+        super.__init__
+
+    def play_game(self, screen, health, score):
+        cur_sec = MAX_TIME
+        cur_time = pygame.time.get_ticks()
+        cur_health = health
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                elif event.type == MOUSEBUTTONUP:
+                    return False, cur_health
+
+            if cur_sec == 0:
+                return True, cur_health
+            temp_time = pygame.time.get_ticks()
+            if 0.95 < (temp_time - cur_time)/1000:
+                cur_time = temp_time
+                cur_sec -= 1
+            self.draw(screen, cur_health, cur_sec, score)
+
+    def set_up_game(self):
+        self.instruction = 'do not touch'
+
+    def draw(self, screen, health, sec, score):
+        screen.fill(LIGHT_GREEN)
+        # draw instruction
+        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), FONT_SMALL, self.instruction, RED)
+
+        pygame.draw.rect(screen, WHITE, self.plus_rec)
+        pygame.draw.rect(screen, WHITE, self.minus_rec)
+        pygame.draw.rect(screen, WHITE, self.multiply_rec)
+        pygame.draw.rect(screen, WHITE, self.divide_rec)
+
+        # add text to button
+        plus_rect = (self.plus_rec.left + self.plus_rec.width / 2, self.plus_rec.top + self.plus_rec.height / 2)
+        font_blit(screen, plus_rect, FONT_SMALL, "+", BROWN)
+
+        minus_rect = (self.minus_rec.left + self.minus_rec.width / 2, self.minus_rec.top + self.minus_rec.height / 2)
+        font_blit(screen, minus_rect, FONT_SMALL, "-", BROWN)
+
+        mul_rect = (
+        self.multiply_rec.left + self.multiply_rec.width / 2, self.multiply_rec.top + self.multiply_rec.height / 2)
+        font_blit(screen, mul_rect, FONT_SMALL, "*", BROWN)
+
+        divide_rect = (
+        self.divide_rec.left + self.divide_rec.width / 2, self.divide_rec.top + self.divide_rec.height / 2)
+        font_blit(screen, divide_rect, FONT_SMALL, "/", BROWN)
+
+        # draw health
+        draw_health(screen, health)
+        # draw clock
+        draw_time(screen, sec)
+        # draw score
+        draw_score(screen, score)
+        pygame.display.update()
