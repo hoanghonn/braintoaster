@@ -64,7 +64,7 @@ class MathGame(Mode):
 
         #self.draw(screen, health)
 
-    def draw(self, screen, health, sec):
+    def draw(self, screen, health):
         screen.fill((69, 187, 255))
         # draw math string
         font_blit(screen, (250, 300), 60, self.math_string, RED)
