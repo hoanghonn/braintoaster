@@ -1,6 +1,6 @@
-import random
-# import pygame
+import random, mode
 from mode import *
+from random import *
 
 
 class Manager:
@@ -11,15 +11,13 @@ class Manager:
     score = 0
 
     def __init__(self,screen):
-        # screen.fill((0, 0, 0))
-        # pygame.display.update()
         math_game = MathGame(screen)
-        # color_game = ColorGame(screen)
+        color_game = ColorGame(screen)
         self.game.append(math_game)
-        # self.game.append(color_game)
+        self.game.append(color_game)
 
         while self.health > 0:
-            random_game = random.randrange(0, self.numberOfGame)
+            random_game = randrange(0, self.numberOfGame)
             if len(self.game) <= 0:
                 print("Error: No game in database")
 

@@ -27,7 +27,6 @@ DISPLAYSURF.blit(TEXT, TEXT_POS)
 while True:
     mousex = 0
     mousey = 0
-    DISPLAYSURF.fill(COLOR['GREEN'])
 
     for event in pygame.event.get():
         if event.type == QUIT:
