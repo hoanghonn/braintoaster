@@ -1,15 +1,18 @@
 import pygame
 import sys
 import random
+import constants
 from helper import *
 from pygame import *
 from random import *
+from constants import *
+#
+# BLUE = (69, 142, 255)
+# RED = (251, 57, 88)
+# WHITE = (222, 209, 193)
+# GREEN = (109, 201, 147)
+# BROWN = (155, 105, 84)
 
-BLUE = (69, 142, 255)
-RED = (251, 57, 88)
-WHITE = (222, 209, 193)
-GREEN = (109, 201, 147)
-BROWN = (155, 105, 84)
 
 
 class Mode:
@@ -21,8 +24,10 @@ class Mode:
 class MathGame(Mode):
     math_string = ''
     result = ''
-    correct_answer_rect = pygame.Rect(100, 700, 100, 100)
-    wrong_answer_rect = pygame.Rect(350, 700, 100, 100)
+    correct_answer_rect = pygame.Rect(SCREEN_WIDTH / 4, SCREEN_HEIGHT * 7/10, BUTTON_SIZE, BUTTON_SIZE)
+    wrong_answer_rect = pygame.Rect(SCREEN_WIDTH / 4 + SCREEN_WIDTH/2,
+                                    SCREEN_HEIGHT * 7/10,
+                                    BUTTON_SIZE, BUTTON_SIZE)
     fake_result = ''
 
     # implement init later
@@ -65,32 +70,31 @@ class MathGame(Mode):
         #self.draw(screen, health)
 
     def draw(self, screen, health):
-        screen.fill((69, 187, 255))
+        screen.fill(CYAN)
         # draw math string
-        font_blit(screen, (250, 300), 60, self.math_string, RED)
+        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), 60, self.math_string, RED)
 
         # draw answers
-        pygame.draw.rect(screen, WHITE, self.correct_answer_rect)
+        correct_answer_rect = (self.correct_answer_rect.left - self.correct_answer_rect.width / 2,
+                               self.correct_answer_rect.top - self.correct_answer_rect.height / 2,
+                               self.correct_answer_rect.width, self.correct_answer_rect.height)
+        pygame.draw.rect(screen, WHITE, correct_answer_rect)
 
         # add text to button
-        correct_answer_rect = (self.correct_answer_rect.left + self.correct_answer_rect.width/2,
-                               self.correct_answer_rect.top + self.correct_answer_rect.height/2)
-        font_blit(screen, correct_answer_rect, 30, str(self.result), BROWN)
 
-        pygame.draw.rect(screen, WHITE, self.wrong_answer_rect)
+        font_blit(screen, self.correct_answer_rect, 40, str(self.result), BROWN)
 
-        wrong_answer_rect = (self.wrong_answer_rect.left + self.wrong_answer_rect.width/2,
-                             self.wrong_answer_rect.top + self.wrong_answer_rect.height/2)
-        font_blit(screen, wrong_answer_rect, 30, str(self.fake_result), GREEN)
+        wrong_answer_rect = (self.wrong_answer_rect.left - self.wrong_answer_rect.width / 2,
+                             self.wrong_answer_rect.top - self.wrong_answer_rect.height / 2,
+                             self.wrong_answer_rect.width, self.wrong_answer_rect.height)
+        pygame.draw.rect(screen, WHITE, wrong_answer_rect)
 
         # draw health
         drawHealth(screen, health)
         # draw clock
-        #drawTime(clock, screen)
+        # drawTime(clock, screen)
 
-        wrong_answer_rect = (self.wrong_answer_rect.left + self.wrong_answer_rect.width/2,
-                             self.wrong_answer_rect.top + self.wrong_answer_rect.height/2)
-        font_blit(screen, wrong_answer_rect, 30, str(self.fake_result), BROWN)
+        font_blit(screen, self.wrong_answer_rect, 40, str(self.fake_result), BROWN)
 
         pygame.display.update()
 
