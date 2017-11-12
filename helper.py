@@ -3,15 +3,25 @@ from pygame import *
 
 
 def font_blit(screen, center, size, text, color, background_color = None):
+<<<<<<< HEAD
     FONT = pygame.font.Font('FreeSansBold.ttf', size)
     TEXT = 'none'
+=======
+    FONT = pygame.font.Font('Digitalt.ttf', size)
+    TEXT = 'none';
+>>>>>>> kvl11
     if background_color == None:
         TEXT = FONT.render(text, True, color)
     else:
         TEXT = FONT.render(text, True, color, background_color)
+<<<<<<< HEAD
     screen.blit(TEXT, center)
     return TEXT.get_rect().width, TEXT.get_rect().height
 
+=======
+    screen.blit(TEXT, (center[0] - TEXT.get_rect().width/2, center[1] - TEXT.get_rect().height/2))
+    return (TEXT.get_rect().width, TEXT.get_rect().height)
+>>>>>>> kvl11
 
 def terminate():
     pygame.quit()
