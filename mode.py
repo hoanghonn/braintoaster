@@ -275,6 +275,7 @@ class OperatorGame(Mode):
     def set_up_game(self):
         self.missing_string = self._get_string()
         self.result = self._get_operator()
+        self.result_index = self.ope.index(self.result)
 
     def draw(self, screen, health, sec, score):
         screen.fill((69, 187, 255))
@@ -314,8 +315,10 @@ class OperatorGame(Mode):
             print("Error: not a valid missing_string")
         temp = string
         operator_list = ["+", "-", "*", "/"]
+        check = 0
         for chr in string:
-            if chr in operator_list:
+            if check == 0 and chr in operator_list:
+                check = 1
                 temp = temp.replace(chr, "  ")
                 return temp
         return temp
@@ -349,6 +352,7 @@ class OperatorGame(Mode):
         else:
             res = x/y
             self.missing_string += str(x) + " / " + str(y) + " = " + str(res)
+        print(self.missing_string)
         return self.missing_string
 
 
