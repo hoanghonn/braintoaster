@@ -90,7 +90,7 @@ class MathGame(Mode):
         pygame.draw.rect(screen, WHITE, wrong_answer_rect)
 
         # draw health
-        drawHealth(screen, health)
+        draw_health(screen, health)
         # draw clock
         # drawTime(clock, screen)
 
@@ -163,9 +163,12 @@ class ColorGame(Mode):
         self.ANSWER_COLOR = randint(0, 3)
 
     # implement init later
-    def play_game(self):
+    def play_game(self,screen,health):
         mousex = 0
         mousey = 0
+        cur_health = health
+        cur_time = pygame.time.get_ticks()
+        cur_sec = 3
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -173,42 +176,39 @@ class ColorGame(Mode):
                 elif event.type == MOUSEBUTTONUP:
                     mousex, mousey = event.pos
                     if self.ANSWER == 0:
-                        if 10 < mousex < 245 and 380 < mousey < 680:
-                            return True
-                        else:
-                            return False
+                        if SCREEN_WIDTH*0.04 < mousex and mousex < SCREEN_WIDTH*0.48 and SCREEN_HEIGHT*0.4 < mousey and mousey < SCREEN_HEIGHT*0.68:
+                            return (True, cur_health)
+                        else: return (False, cur_health)
                     elif self.ANSWER == 1:
-                        if 10 < mousex < 245 and 690 < mousey < 990:
-                            return True
-                        else:
-                            return False
+                        if SCREEN_WIDTH*0.04 < mousex and mousex < SCREEN_WIDTH*0.48 and SCREEN_HEIGHT*0.7 < mousey and mousey < SCREEN_HEIGHT*0.98:
+                            return (True, cur_health)
+                        else: return (False, cur_health)
                     elif self.ANSWER == 2:
-                        if 255 < mousex < 490 and 380 < mousey < 680:
-                            return True
-                        else:
-                            return False
+                        if SCREEN_WIDTH*0.52 < mousex and mousex < SCREEN_WIDTH*0.96 and SCREEN_HEIGHT*0.4 < mousey and mousey < SCREEN_HEIGHT*0.68:
+                            return (True, cur_health)
+                        else: return (False, cur_health)
                     elif self.ANSWER == 3:
-                        if 255 < mousex < 490 and 690 < mousey < 990:
-                            return True
-                        else:
-                            return False
+                        if SCREEN_WIDTH*0.52 < mousex and mousex < SCREEN_WIDTH*0.96 and SCREEN_HEIGHT*0.7 < mousey and mousey < SCREEN_HEIGHT*0.98:
+                            return (True, cur_health)
+                        else: return (False, cur_health)
+            #cur_health = clock
+            if cur_sec == 0:
+                return (False, cur_health)
+            temp_time = pygame.time.get_ticks()
+            if 0.95 < (temp_time - cur_time)/1000:
+                cur_time = temp_time
+                cur_sec -= 1
+            self.draw(screen, cur_health, cur_sec)
 
-    def draw(self, screen):
-        screen.fill((222, 209, 193))
-        font_blit(screen, (250, 280), 80, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1],
-                                                                            self.FOUR_COLOR[self.ANSWER_COLOR][2],
-                                                                            self.FOUR_COLOR[self.ANSWER_COLOR][3]))
-        pygame.draw.rect(screen, (self.FOUR_COLOR[0][1],
-                                  self.FOUR_COLOR[0][2],
-                                  self.FOUR_COLOR[0][3]), (10, 380, 235, 300))
-        pygame.draw.rect(screen, (self.FOUR_COLOR[1][1],
-                                  self.FOUR_COLOR[1][2],
-                                  self.FOUR_COLOR[1][3]), (10, 690, 235, 300))
-        pygame.draw.rect(screen, (self.FOUR_COLOR[2][1],
-                                  self.FOUR_COLOR[2][2],
-                                  self.FOUR_COLOR[2][3]), (255, 380, 235, 300))
-        pygame.draw.rect(screen, (self.FOUR_COLOR[3][1],
-                                  self.FOUR_COLOR[3][2],
-                                  self.FOUR_COLOR[3][3]), (255, 690, 235, 300))
 
+
+    def draw(self,screen,health,sec):
+        screen.fill((255,255,255))
+        font_blit(screen, (SCREEN_WIDTH*0.5,SCREEN_HEIGHT*0.5), 80, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[0][1], self.FOUR_COLOR[0][2], self.FOUR_COLOR[0][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[1][1], self.FOUR_COLOR[1][2], self.FOUR_COLOR[1][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[2][1], self.FOUR_COLOR[2][2], self.FOUR_COLOR[2][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[3][1], self.FOUR_COLOR[3][2], self.FOUR_COLOR[3][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
+        draw_health(screen,health)
+        draw_time(screen,sec)
         pygame.display.update()

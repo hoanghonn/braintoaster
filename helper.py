@@ -18,8 +18,11 @@ def terminate():
     pygame.quit()
     sys.exit()
 
-def drawHealth(screen, health):
+def draw_health(screen, health):
     health_width = health / 100.0 * SCREEN_WIDTH
     health_bar = (0,0, health_width, 50)
 
     pygame.draw.rect(screen, (255,0,0), health_bar)
+
+def draw_time(screen,sec):
+    font_blit(screen,(400,100),80,str(sec),(0,0,0))
