@@ -21,13 +21,12 @@ TEXT = FONT.render('START', True, COLOR['RED'], COLOR['YELLOW'])
 
 clock = pygame.time.Clock()
 
-DISPLAYSURF.fill(COLOR['GREEN'])
-DISPLAYSURF.blit(TEXT, TEXT_POS)
 
 while True:
     mousex = 0
     mousey = 0
-
+    DISPLAYSURF.fill(COLOR['GREEN'])
+    DISPLAYSURF.blit(TEXT, TEXT_POS)
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
