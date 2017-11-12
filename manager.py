@@ -11,6 +11,7 @@ class Manager:
     game = []
     score = 0
 
+
     def __init__(self, screen):
         math_game = MathGame()
         color_game = ColorGame()
