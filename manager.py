@@ -26,7 +26,7 @@ class Manager:
 
             cur_game = self.game[random_game]
             cur_game.set_up_game()
-            result = cur_game.play_game(screen, self.health)
+            result = cur_game.play_game(screen, self.health, self.score)
             self.health = result[1]
             if result[0]:
                 if self.health + 2 > 100:
@@ -36,6 +36,7 @@ class Manager:
                 self.score += 10
             else:
                 self.health -= 10
+
             print(self.health)
 
     def get_score(self):
