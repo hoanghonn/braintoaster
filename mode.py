@@ -6,12 +6,6 @@ from helper import *
 from pygame import *
 from random import *
 from constants import *
-#
-# BLUE = (69, 142, 255)
-# RED = (251, 57, 88)
-# WHITE = (222, 209, 193)
-# GREEN = (109, 201, 147)
-# BROWN = (155, 105, 84)
 
 
 class Mode:

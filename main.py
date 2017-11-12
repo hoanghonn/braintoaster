@@ -22,6 +22,7 @@ TEXT = FONT.render('START', True, COLOR['RED'], COLOR['YELLOW'])
 
 clock = pygame.time.Clock()
 
+score = -1
 
 while True:
     mousex = 0
@@ -48,6 +49,12 @@ while True:
     start_rect_pos = (SCREEN_WIDTH/2 - logo_rect.width/2, SCREEN_HEIGHT*4/5 - start_rect.height/2)
     start_rect = start_rect.move(start_rect_pos)
     DISPLAYSURF.blit(start, start_rect)
+
+    # draw score
+    if score != -1:
+        print_score = 'Score: ' + str(score)
+        score_rect = (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.6)
+        font_blit(DISPLAYSURF, score_rect, FONT_BIG, print_score, YELLOW)
 
     for event in pygame.event.get():
         if event.type == QUIT:
