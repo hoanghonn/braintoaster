@@ -40,7 +40,8 @@ class MathGame(Mode):
             self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
     def play_game(self, screen, health):
-
+        cur_sec = MAX_TIME
+        cur_time = pygame.time.get_ticks()
         cur_health = health
         while True:
             for event in pygame.event.get():
@@ -52,8 +53,13 @@ class MathGame(Mode):
                         return (True, cur_health)
                     elif self.wrong_answer_rect.collidepoint(mousex, mousey):
                         return (False, cur_health)
-                else: self.draw(screen, cur_health)
-            self.draw(screen, health)
+            if cur_sec == 0:
+                return (False, cur_health)
+            temp_time = pygame.time.get_ticks()
+            if 0.95 < (temp_time - cur_time)/1000:
+                cur_time = temp_time
+                cur_sec -= 1
+            self.draw(screen, cur_health, cur_sec)
 
     def set_up_game(self):
         self.math_string = self._get_string()
@@ -67,12 +73,10 @@ class MathGame(Mode):
         if random_rect == 0:
             self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
-        #self.draw(screen, health)
-
-    def draw(self, screen, health):
+    def draw(self, screen, health, sec):
         screen.fill(CYAN)
         # draw math string
-        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), 60, self.math_string, RED)
+        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), 80, self.math_string, RED)
 
         # draw answers
         correct_answer_rect = (self.correct_answer_rect.left - self.correct_answer_rect.width / 2,
@@ -92,7 +96,7 @@ class MathGame(Mode):
         # draw health
         draw_health(screen, health)
         # draw clock
-        # drawTime(clock, screen)
+        draw_time(screen, sec)
 
         font_blit(screen, self.wrong_answer_rect, 40, str(self.fake_result), BROWN)
 
@@ -168,7 +172,7 @@ class ColorGame(Mode):
         mousey = 0
         cur_health = health
         cur_time = pygame.time.get_ticks()
-        cur_sec = 3
+        cur_sec = MAX_TIME
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -203,7 +207,7 @@ class ColorGame(Mode):
 
 
     def draw(self,screen,health,sec):
-        screen.fill((255,255,255))
+        screen.fill(WHITE)
         font_blit(screen, (SCREEN_WIDTH*0.5,SCREEN_HEIGHT*0.5), 80, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
         pygame.draw.rect(screen, (self.FOUR_COLOR[0][1], self.FOUR_COLOR[0][2], self.FOUR_COLOR[0][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[1][1], self.FOUR_COLOR[1][2], self.FOUR_COLOR[1][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
