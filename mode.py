@@ -594,11 +594,9 @@ class AdvancedTouchGame(Mode):
                 cur_sec -= 1
             self.draw(screen, cur_health, cur_sec, score)
 
-
-
     def set_up_game(self):
-        random_touch = randint(1, 10)
-        instruction = 'touch ' + str(random_touch) + ' times'
+        self.random_touch = randint(1, 10)
+        self.instruction = 'touch ' + str(self.random_touch) + ' times'
         self.count = 0
 
     def draw(self, screen, health, sec, score):
@@ -618,3 +616,124 @@ class AdvancedTouchGame(Mode):
         draw_score(screen, score)
         pygame.display.update()
 
+
+class AdvancedMathGame(Mode):
+    math_string = ''
+    result = ''
+    correct_answer_rect = pygame.Rect(SCREEN_WIDTH / 4 - BUTTON_SIZE/2, SCREEN_HEIGHT * 7/10 - BUTTON_SIZE/2, BUTTON_SIZE, BUTTON_SIZE)
+    wrong_answer_rect = pygame.Rect(SCREEN_WIDTH * 0.75 - BUTTON_SIZE/2,
+                                    SCREEN_HEIGHT * 7/10 - BUTTON_SIZE/2,
+                                    BUTTON_SIZE, BUTTON_SIZE)
+    fake_result = ''
+
+    def __init__(self):
+        self.math_string = self._get_string()
+        self.result = self._calculate_result()
+        random_rect = randrange(0, 2)
+
+        if random_rect == 0:
+            self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
+
+    def play_game(self, screen, health, score):
+        cur_sec = MAX_TIME
+        cur_time = pygame.time.get_ticks()
+        cur_health = health
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                elif event.type == MOUSEBUTTONUP:
+                    mousex, mousey = event.pos
+                    if self.correct_answer_rect.collidepoint(mousex, mousey):
+                        return True, cur_health
+                    elif self.wrong_answer_rect.collidepoint(mousex, mousey):
+                        return False, cur_health
+            if cur_sec == 0:
+                return False, cur_health
+            temp_time = pygame.time.get_ticks()
+            if 0.95 < (temp_time - cur_time)/1000:
+                cur_time = temp_time
+                cur_sec -= 1
+            self.draw(screen, cur_health, cur_sec, score)
+
+    def set_up_game(self):
+        self.math_string = self._get_string()
+        self.result = self._calculate_result()
+        random_rect = randrange(0, 2)
+        rand_diff = randint(-10, 11)
+        if rand_diff == 0:
+            rand_diff += 1
+        self.fake_result = self.result + rand_diff
+
+        if random_rect == 0:
+            self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
+
+    def draw(self, screen, health, sec, score):
+        screen.fill(BLUE)
+        # draw math string
+        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), FONT_BIG, self.math_string, PINK)
+
+        # draw answers
+        correct_answer_center = (self.correct_answer_rect.left + self.correct_answer_rect.width / 2,
+                                 self.correct_answer_rect.top + self.correct_answer_rect.height / 2,
+                                 self.correct_answer_rect.width, self.correct_answer_rect.height)
+        pygame.draw.rect(screen, WHITE, self.correct_answer_rect)
+
+        # add text to button
+        font_blit(screen, correct_answer_center, FONT_SMALL, str(self.result), BROWN)
+        wrong_answer_center = (self.wrong_answer_rect.left + self.wrong_answer_rect.width / 2,
+                               self.wrong_answer_rect.top + self.wrong_answer_rect.height / 2,
+                               self.wrong_answer_rect.width, self.wrong_answer_rect.height)
+        pygame.draw.rect(screen, WHITE, self.wrong_answer_rect)
+        font_blit(screen, wrong_answer_center, FONT_SMALL, str(self.fake_result), BROWN)
+
+        # draw health
+        draw_health(screen, health)
+        # draw clock
+        draw_time(screen, sec)
+        # draw score
+        draw_score(screen, score)
+
+        pygame.display.update()
+
+    def _calculate_result(self):
+        if len(self.math_string) < 7:
+            print("Error: not a valid math_string")
+        index = 0
+        temp = []
+        check = 0
+
+        while check < len(self.math_string):
+            if self.math_string[check] == ' ':
+                len_of_num = check-index
+                if len_of_num > 0:
+                    temp.append(self.math_string[index:check])
+                else:
+                    print("Error: not a valid operator or operand")
+                index = check+1
+            check += 1
+
+        if temp[1] == "+":
+            return int(temp[0]) + int(temp[2])
+        elif temp[1] == "-":
+            return int(temp[0]) - int(temp[2])
+        elif temp[1] == "*":
+            return int(temp[0]) * int(temp[2])
+        else:
+            return int(temp[0]) / int(temp[2])
+
+    def _get_string(self):
+        self.math_string = ""
+        x = randrange(0, 50)
+        y = randrange(1, 10)
+        opran = randrange(0, 4)
+
+        if opran == 1:
+            self.math_string += str(x) + " + " + str(y) + " = "
+        elif opran == 2:
+            self.math_string += str(x) + " - " + str(y) + " = "
+        elif opran == 3:
+            self.math_string += str(x) + " * " + str(y) + " = "
+        else:
+            self.math_string += str(x) + " / " + str(y) + " = "
+        return self.math_string
