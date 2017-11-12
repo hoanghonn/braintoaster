@@ -14,9 +14,7 @@ from constants import *
 # BROWN = (155, 105, 84)
 
 
-
 class Mode:
-
     def __init__(self):
         return
 
@@ -30,7 +28,6 @@ class MathGame(Mode):
                                     BUTTON_SIZE, BUTTON_SIZE)
     fake_result = ''
 
-    # implement init later
     def __init__(self):
         self.math_string = self._get_string()
         self.result = self._calculate_result()
@@ -50,11 +47,11 @@ class MathGame(Mode):
                 elif event.type == MOUSEBUTTONUP:
                     mousex, mousey = event.pos
                     if self.correct_answer_rect.collidepoint(mousex, mousey):
-                        return (True, cur_health)
+                        return True, cur_health
                     elif self.wrong_answer_rect.collidepoint(mousex, mousey):
-                        return (False, cur_health)
+                        return False, cur_health
             if cur_sec == 0:
-                return (False, cur_health)
+                return False, cur_health
             temp_time = pygame.time.get_ticks()
             if 0.95 < (temp_time - cur_time)/1000:
                 cur_time = temp_time
@@ -80,28 +77,22 @@ class MathGame(Mode):
 
         # draw answers
         correct_answer_center = (self.correct_answer_rect.left + self.correct_answer_rect.width / 2,
-                               self.correct_answer_rect.top + self.correct_answer_rect.height / 2,
-                               self.correct_answer_rect.width, self.correct_answer_rect.height)
+                                 self.correct_answer_rect.top + self.correct_answer_rect.height / 2,
+                                 self.correct_answer_rect.width, self.correct_answer_rect.height)
         pygame.draw.rect(screen, WHITE, self.correct_answer_rect)
 
         # add text to button
-
         font_blit(screen, correct_answer_center, FONT_SMALL, str(self.result), BROWN)
-
         wrong_answer_center = (self.wrong_answer_rect.left + self.wrong_answer_rect.width / 2,
-                             self.wrong_answer_rect.top + self.wrong_answer_rect.height / 2,
-                             self.wrong_answer_rect.width, self.wrong_answer_rect.height)
+                               self.wrong_answer_rect.top + self.wrong_answer_rect.height / 2,
+                               self.wrong_answer_rect.width, self.wrong_answer_rect.height)
         pygame.draw.rect(screen, WHITE, self.wrong_answer_rect)
-
         font_blit(screen, wrong_answer_center, FONT_SMALL, str(self.fake_result), BROWN)
 
         # draw health
         draw_health(screen, health)
         # draw clock
         draw_time(screen, sec)
-
-
-
         pygame.display.update()
 
     def _calculate_result(self):
@@ -169,7 +160,7 @@ class ColorGame(Mode):
         self.ANSWER_COLOR = randint(0, 3)
 
     # implement init later
-    def play_game(self,screen,health):
+    def play_game(self, screen, health):
         mousex = 0
         mousey = 0
         cur_health = health
@@ -182,46 +173,46 @@ class ColorGame(Mode):
                 elif event.type == MOUSEBUTTONUP:
                     mousex, mousey = event.pos
                     if self.ANSWER == 0:
-                        if SCREEN_WIDTH*0.04 < mousex and mousex < SCREEN_WIDTH*0.48 and SCREEN_HEIGHT*0.4 < mousey and mousey < SCREEN_HEIGHT*0.68:
-                            return (True, cur_health)
-                        else: return (False, cur_health)
+                        if SCREEN_WIDTH*0.04 < mousex < SCREEN_WIDTH*0.48 and \
+                                                        SCREEN_HEIGHT * 0.4 < mousey < SCREEN_HEIGHT * 0.68:
+                            return True, cur_health
+                        else: return False, cur_health
                     elif self.ANSWER == 1:
-                        if SCREEN_WIDTH*0.04 < mousex and mousex < SCREEN_WIDTH*0.48 and SCREEN_HEIGHT*0.7 < mousey and mousey < SCREEN_HEIGHT*0.98:
-                            return (True, cur_health)
-                        else: return (False, cur_health)
+                        if SCREEN_WIDTH*0.04 < mousex < SCREEN_WIDTH*0.48 and \
+                                                        SCREEN_HEIGHT * 0.7 < mousey < SCREEN_HEIGHT * 0.98:
+                            return True, cur_health
+                        else: return False, cur_health
                     elif self.ANSWER == 2:
-                        if SCREEN_WIDTH*0.52 < mousex and mousex < SCREEN_WIDTH*0.96 and SCREEN_HEIGHT*0.4 < mousey and mousey < SCREEN_HEIGHT*0.68:
-                            return (True, cur_health)
-                        else: return (False, cur_health)
+                        if SCREEN_WIDTH*0.52 < mousex < SCREEN_WIDTH*0.96 and \
+                                                        SCREEN_HEIGHT * 0.4 < mousey < SCREEN_HEIGHT * 0.68:
+                            return True, cur_health
+                        else: return False, cur_health
                     elif self.ANSWER == 3:
-                        if SCREEN_WIDTH*0.52 < mousex and mousex < SCREEN_WIDTH*0.96 and SCREEN_HEIGHT*0.7 < mousey and mousey < SCREEN_HEIGHT*0.98:
-                            return (True, cur_health)
-                        else: return (False, cur_health)
-            #cur_health = clock
+                        if SCREEN_WIDTH*0.52 < mousex < SCREEN_WIDTH*0.96 and \
+                                                        SCREEN_HEIGHT * 0.7 < mousey < SCREEN_HEIGHT * 0.98:
+                            return True, cur_health
+                        else: return False, cur_health
+            # cur_health = clock
             if cur_sec == 0:
-                return (False, cur_health)
+                return False, cur_health
             temp_time = pygame.time.get_ticks()
             if 0.95 < (temp_time - cur_time)/1000:
                 cur_time = temp_time
                 cur_sec -= 1
             self.draw(screen, cur_health, cur_sec)
 
-
-
-    def draw(self,screen,health,sec):
+    def draw(self, screen, health, sec):
         screen.fill(WHITE)
         font_blit(screen, (SCREEN_WIDTH*0.5,SCREEN_HEIGHT*0.2), FONT_BIG, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
         pygame.draw.rect(screen, (self.FOUR_COLOR[0][1], self.FOUR_COLOR[0][2], self.FOUR_COLOR[0][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[1][1], self.FOUR_COLOR[1][2], self.FOUR_COLOR[1][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[2][1], self.FOUR_COLOR[2][2], self.FOUR_COLOR[2][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
         pygame.draw.rect(screen, (self.FOUR_COLOR[3][1], self.FOUR_COLOR[3][2], self.FOUR_COLOR[3][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
-        draw_health(screen,health)
-        draw_time(screen,sec)
+        draw_health(screen, health)
+        draw_time(screen, sec)
         pygame.display.update()
 
 
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 1000
 class OperatorGame(Mode):
 
     missing_string = ''
@@ -295,20 +286,16 @@ class OperatorGame(Mode):
         pygame.draw.rect(screen, WHITE, self.divide_rec)
 
         # add text to button
-        plus_rect = (self.plus_rec.left + self.plus_rec.width/2,
-                               self.plus_rec.top + self.plus_rec.height/2)
+        plus_rect = (self.plus_rec.left + self.plus_rec.width/2, self.plus_rec.top + self.plus_rec.height/2)
         font_blit(screen, plus_rect, FONT_SMALL, "+", BROWN)
 
-        minus_rect = (self.minus_rec.left + self.minus_rec.width / 2,
-                     self.minus_rec.top + self.minus_rec.height / 2)
+        minus_rect = (self.minus_rec.left + self.minus_rec.width / 2, self.minus_rec.top + self.minus_rec.height / 2)
         font_blit(screen, minus_rect, FONT_SMALL, "-", BROWN)
 
-        mul_rect = (self.multiply_rec.left + self.multiply_rec.width / 2,
-                     self.multiply_rec.top + self.multiply_rec.height / 2)
+        mul_rect = (self.multiply_rec.left + self.multiply_rec.width / 2, self.multiply_rec.top + self.multiply_rec.height / 2)
         font_blit(screen, mul_rect, FONT_SMALL, "*", BROWN)
 
-        divide_rect = (self.divide_rec.left + self.divide_rec.width / 2,
-                     self.divide_rec.top + self.divide_rec.height / 2)
+        divide_rect = (self.divide_rec.left + self.divide_rec.width / 2, self.divide_rec.top + self.divide_rec.height / 2)
         font_blit(screen, divide_rect, FONT_SMALL, "/", BROWN)
 
         # draw health
