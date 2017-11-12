@@ -7,12 +7,11 @@ from random import *
 class Manager:
 
     numberOfGame = 4
-    numberOfHardGame = numberOfGame + 1
+    numberOfHardGame = numberOfGame + 2
     health = 100
     game = []
     hard_game = []
     score = 0
-
 
     def __init__(self, screen):
         math_game = MathGame()
@@ -20,11 +19,16 @@ class Manager:
         ope_game = OperatorGame()
         dont_game = DontTouchGame()
         a_dont_game = AdvancedDontTouchGame()
+        a_color_game = AdvancedColorGame()
+        a_touch_game = AdvancedTouchGame()
+        self.hard_game.append(a_touch_game)
+        self.hard_game.append(a_color_game)
         self.hard_game.append(a_dont_game)
         self.hard_game.append(math_game)
         self.hard_game.append(color_game)
         self.hard_game.append(ope_game)
         self.hard_game.append(dont_game)
+
         self.game.append(math_game)
         self.game.append(color_game)
         self.game.append(ope_game)

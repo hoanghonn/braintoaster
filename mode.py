@@ -471,3 +471,151 @@ class AdvancedDontTouchGame(Mode):
         # draw score
         draw_score(screen, score)
         pygame.display.update()
+
+
+class AdvancedColorGame(Mode):
+
+    COLOR = [('RED', 251, 57, 88),
+             ('GREEN', 109, 201, 147),
+             ('BLUE', 69, 142, 255),
+             ('PURPLE', 195, 42, 163),
+             ('YELLOW', 247, 180, 44),
+             ('BROWN', 155, 105, 84),
+             ('BLACK', 0, 0, 0)]
+    FOUR_COLOR = sample(COLOR, 4)
+    ANSWER = randint(0, 3)
+    ANSWER_COLOR = randint(0, 3)
+
+    def __init__(self):
+        super.__init__
+
+    def set_up_game(self):
+        self.FOUR_COLOR = sample(self.COLOR, 4)
+        self.ANSWER = randint(0, 3)
+        self.ANSWER_COLOR = randint(0, 3)
+
+    # implement init later
+
+    def play_game(self,screen,health, score):
+        mousex = 0
+        mousey = 0
+        cur_health = health
+        cur_time = pygame.time.get_ticks()
+        cur_sec = MAX_TIME
+
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                elif event.type == MOUSEBUTTONUP:
+                    mousex, mousey = event.pos
+                    if self.ANSWER == 0:
+                        if SCREEN_WIDTH*0.04 < mousex < SCREEN_WIDTH*0.48 and \
+                                                        SCREEN_HEIGHT * 0.4 < mousey < SCREEN_HEIGHT * 0.68:
+                            return True, cur_health
+                        else: return False, cur_health
+                    elif self.ANSWER == 1:
+                        if SCREEN_WIDTH*0.04 < mousex < SCREEN_WIDTH*0.48 and \
+                                                        SCREEN_HEIGHT * 0.7 < mousey < SCREEN_HEIGHT * 0.98:
+                            return True, cur_health
+                        else: return False, cur_health
+                    elif self.ANSWER == 2:
+                        if SCREEN_WIDTH*0.52 < mousex < SCREEN_WIDTH*0.96 and \
+                                                        SCREEN_HEIGHT * 0.4 < mousey < SCREEN_HEIGHT * 0.68:
+                            return True, cur_health
+                        else: return False, cur_health
+                    elif self.ANSWER == 3:
+                        if SCREEN_WIDTH*0.52 < mousex < SCREEN_WIDTH*0.96 and \
+                                                        SCREEN_HEIGHT * 0.7 < mousey < SCREEN_HEIGHT * 0.98:
+                            return True, cur_health
+                        else: return False, cur_health
+            # cur_health = clock
+
+            if cur_sec == 0:
+                return False, cur_health
+            temp_time = pygame.time.get_ticks()
+            if 0.95 < (temp_time - cur_time)/1000:
+                cur_time = temp_time
+                cur_sec -= 1
+            self.draw(screen, cur_health, cur_sec, score)
+
+
+    def draw(self,screen,health,sec, score):
+        screen.fill(WHITE)
+        random_font = randint(10,40)
+        random_x = randint(40, SCREEN_WIDTH-40)
+        random_y = randint(SCREEN_HEIGHT*0.2, SCREEN_HEIGHT*0.4)
+        font_blit(screen, (random_x, random_y), random_font, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[0][1], self.FOUR_COLOR[0][2], self.FOUR_COLOR[0][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[1][1], self.FOUR_COLOR[1][2], self.FOUR_COLOR[1][3]), (SCREEN_WIDTH*0.04,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[2][1], self.FOUR_COLOR[2][2], self.FOUR_COLOR[2][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.4,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[3][1], self.FOUR_COLOR[3][2], self.FOUR_COLOR[3][3]), (SCREEN_WIDTH*0.52,SCREEN_HEIGHT*0.7,SCREEN_WIDTH*0.44,SCREEN_HEIGHT*0.28))
+
+        draw_health(screen,health)
+        draw_time(screen,sec)
+        draw_score(screen, score)
+        pygame.display.update()
+
+
+class AdvancedTouchGame(Mode):
+    random_touch = randint(1,10)
+    instruction = 'touch ' + str(random_touch) + ' times'
+    not_rec = pygame.Rect(SCREEN_WIDTH / 20, SCREEN_HEIGHT / 10, SCREEN_WIDTH - SCREEN_WIDTH * 0.9, SCREEN_HEIGHT - SCREEN_HEIGHT*4/5)
+    click_rect = pygame.Rect(SCREEN_WIDTH /6, SCREEN_HEIGHT / 2, 300, 300)
+    count = 0
+
+    def __init__(self):
+        super.__init__
+
+    def play_game(self, screen, health, score):
+        cur_sec = MAX_TIME
+        cur_time = pygame.time.get_ticks()
+        cur_health = health
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                elif event.type == MOUSEBUTTONUP:
+                    mousex, mousey = event.pos
+                    if self.click_rect.collidepoint(mousex, mousey):
+                        self.count += 1
+
+            if cur_sec == 0:
+                if self.count > self.random_touch:
+                    return False, cur_health
+                elif self.count == self.random_touch:
+                    return True, cur_health
+                # return True, cur_health
+            temp_time = pygame.time.get_ticks()
+            if 0.95 < (temp_time - cur_time)/1000:
+                cur_time = temp_time
+                cur_sec -= 1
+            self.draw(screen, cur_health, cur_sec, score)
+
+
+
+    def set_up_game(self):
+        random_touch = randint(1, 10)
+        instruction = 'touch ' + str(random_touch) + ' times'
+        self.count = 0
+
+    def draw(self, screen, health, sec, score):
+        screen.fill(LIGHT_GREEN)
+        # draw instruction
+        font_blit(screen, (SCREEN_WIDTH / 5, SCREEN_HEIGHT * 2/10), 30, "Clicked: " + str(self.count), CYAN)
+        font_blit(screen, (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3/10), 60, self.instruction, RED)
+
+        pygame.draw.rect(screen, WHITE, self.click_rect)
+
+
+        # draw health
+        draw_health(screen, health)
+        # draw clock
+        draw_time(screen, sec)
+        # draw score
+        draw_score(screen, score)
+        pygame.display.update()
+
+
+
