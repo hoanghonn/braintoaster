@@ -16,3 +16,6 @@ def font_blit(screen, center, size, text, color, background_color = None):
 def terminate():
     pygame.quit()
     sys.exit()
+
+def draw_time(screen,sec):
+    font_blit(screen,(400,100),80,str(sec),(0,0,0))
