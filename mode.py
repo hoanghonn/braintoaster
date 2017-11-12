@@ -62,8 +62,6 @@ class MathGame(Mode):
 
     def draw(self, screen):
         # draw math string
-        screen.fill(BLUE)
-
         font_blit(screen, (250, 300), 60, self.math_string, RED)
 
         # draw answers
