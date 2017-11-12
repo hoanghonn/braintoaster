@@ -170,6 +170,13 @@ class ColorGame(Mode):
                     terminate()
                 elif event.type == MOUSEBUTTONUP:
                     mousex, mousey = event.pos
+                    if mousey < SCREEN_HEIGHT*0.4 or \
+                       0 < mousex < SCREEN_WIDTH*0.04 or \
+                       SCREEN_WIDTH*0.48 < mousex < SCREEN_WIDTH*0.52 or \
+                       SCREEN_WIDTH*0.96 < mousex < SCREEN_WIDTH or \
+                       SCREEN_HEIGHT*0.7 < mousey < SCREEN_HEIGHT*0.72 or \
+                       SCREEN_HEIGHT*0.98 < mousey < SCREEN_HEIGHT:
+                        continue
                     if self.ANSWER == 0:
                         if SCREEN_WIDTH*0.04 < mousex < SCREEN_WIDTH*0.48 and \
                                                         SCREEN_HEIGHT * 0.4 < mousey < SCREEN_HEIGHT * 0.68:
@@ -195,7 +202,7 @@ class ColorGame(Mode):
             if cur_sec == 0:
                 return False, cur_health
             temp_time = pygame.time.get_ticks()
-            if 0.95 < (temp_time - cur_time)/1000:
+            if 0.5 < (temp_time - cur_time)/1000:
                 cur_time = temp_time
                 cur_sec -= 1
             self.draw(screen, cur_health, cur_sec, score)
