@@ -7,8 +7,10 @@ from random import *
 class Manager:
 
     numberOfGame = 4
+    numberOfHardGame = numberOfGame + 1
     health = 100
     game = []
+    hard_game = []
     score = 0
 
     def __init__(self, screen):
@@ -16,6 +18,12 @@ class Manager:
         color_game = ColorGame()
         ope_game = OperatorGame()
         dont_game = DontTouchGame()
+        a_dont_game = AdvancedDontTouchGame()
+        self.hard_game.append(a_dont_game)
+        self.hard_game.append(math_game)
+        self.hard_game.append(color_game)
+        self.hard_game.append(ope_game)
+        self.hard_game.append(dont_game)
         self.game.append(math_game)
         self.game.append(color_game)
         self.game.append(ope_game)
@@ -23,10 +31,13 @@ class Manager:
 
         while self.health > 0:
             random_game = randrange(0, self.numberOfGame)
+            random_hard_game = randrange(0, self.numberOfHardGame)
             if len(self.game) <= 0:
                 print("Error: No game in database")
-
-            cur_game = self.game[random_game]
+            if self.score > 20:
+                cur_game = self.hard_game[random_hard_game]
+            else:
+                cur_game = self.game[random_game]
             cur_game.set_up_game()
             result = cur_game.play_game(screen, self.health, self.score)
             self.health = result[1]

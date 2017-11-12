@@ -32,4 +32,4 @@ def draw_time(screen,sec):
 def draw_score(screen, score):
     print_score = 'Score: ' + str(score)
     score_rect = (SCREEN_WIDTH / 5, SCREEN_HEIGHT * 0.1)
-    font_blit(screen, score_rect, FONT_SMALL, print_score, YELLOW)
+    font_blit(screen, score_rect, FONT_SMALL, print_score, QUORA_RED)
