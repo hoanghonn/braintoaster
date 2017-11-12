@@ -21,7 +21,7 @@ class MathGame(Mode):
 
 class ColorGame(Mode):
 
-    COLOR = [('RED',255,0,0),('GREEN',0,255,0),('BLUE',0,0,255),('PURPLE',255,0,255),('YELLOW',255,255,0),('BROWN',153,102,0),('BLACK',0,0,0)]
+    COLOR = [('RED',255,0,0),('GREEN',0,255,0),('BLUE',0,0,255),('PURPLE',255,0,255),('YELLOW',255,255,0),('BROWN',153,102,0)]
     FOUR_COLOR = sample(COLOR, 4)
     ANSWER = randint(0,3)
     ANSWER_COLOR = randint(0,3)
@@ -63,9 +63,9 @@ class ColorGame(Mode):
 
     def draw(self,screen):
         screen.fill((255,255,255))
-        font_blit(screen, (170,430), 40, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
-        pygame.draw.rect(screen, (self.FOUR_COLOR[0][1], self.FOUR_COLOR[0][2], self.FOUR_COLOR[0][3]), (10,10,235,200))
-        pygame.draw.rect(screen, (self.FOUR_COLOR[1][1], self.FOUR_COLOR[1][2], self.FOUR_COLOR[1][3]), (10,220,235,200))
-        pygame.draw.rect(screen, (self.FOUR_COLOR[2][1], self.FOUR_COLOR[2][2], self.FOUR_COLOR[2][3]), (255,10,235,200))
-        pygame.draw.rect(screen, (self.FOUR_COLOR[3][1], self.FOUR_COLOR[3][2], self.FOUR_COLOR[3][3]), (255,220,235,200))
+        font_blit(screen, (250,280), 80, self.FOUR_COLOR[self.ANSWER][0], (self.FOUR_COLOR[self.ANSWER_COLOR][1], self.FOUR_COLOR[self.ANSWER_COLOR][2], self.FOUR_COLOR[self.ANSWER_COLOR][3]))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[0][1], self.FOUR_COLOR[0][2], self.FOUR_COLOR[0][3]), (10,380,235,300))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[1][1], self.FOUR_COLOR[1][2], self.FOUR_COLOR[1][3]), (10,690,235,300))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[2][1], self.FOUR_COLOR[2][2], self.FOUR_COLOR[2][3]), (255,380,235,300))
+        pygame.draw.rect(screen, (self.FOUR_COLOR[3][1], self.FOUR_COLOR[3][2], self.FOUR_COLOR[3][3]), (255,690,235,300))
         pygame.display.update()
