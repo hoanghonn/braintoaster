@@ -1,13 +1,15 @@
-import pygame, sys, manager
+import pygame
+import sys
+import manager
 from pygame import *
 from manager import *
 
 # constants go here
-COLOR = {'RED': (255, 0, 0),
-         'GREEN': (0, 255, 0),
-         'BLUE': (0, 0, 255),
+COLOR = {'RED': (251, 57, 88),
+         'GREEN': (37, 211, 102),
+         'BLUE': (69, 142, 255),
          'PURPLE': (255, 0, 255),
-         'YELLOW': (255, 255, 0),
+         'YELLOW': (255, 200, 56),
          'BROWN': (153, 102, 0),
          'BLACK': (0, 0, 0)}
 DISPLAY_SIZE = (500, 1000)

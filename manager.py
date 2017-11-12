@@ -1,4 +1,5 @@
-import random, mode
+import random
+import mode
 from mode import *
 from random import *
 
@@ -10,9 +11,9 @@ class Manager:
     game = []
     score = 0
 
-    def __init__(self,screen):
-        math_game = MathGame(screen)
-        color_game = ColorGame(screen)
+    def __init__(self, screen):
+        math_game = MathGame()
+        color_game = ColorGame()
         self.game.append(math_game)
         self.game.append(color_game)
 
@@ -25,7 +26,10 @@ class Manager:
             cur_game.set_up_game()
             cur_game.draw(screen)
             if cur_game.play_game():
-                self.health += 2
+                if self.health + 2 > 100:
+                    self.health = 100
+                else:
+                    self.health += 2
                 self.score += 10
             else:
                 self.health -= 10
