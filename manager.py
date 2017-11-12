@@ -5,7 +5,7 @@ from random import *
 
 class Manager:
 
-    numberOfGame = 2
+    numberOfGame = 1
     health = 100
     game = []
     score = 0
@@ -23,8 +23,9 @@ class Manager:
 
             cur_game = self.game[random_game]
             cur_game.set_up_game()
-            cur_game.draw(screen)
-            if cur_game.play_game():
+            result = cur_game.play_game(screen, self.health)
+            self.health = result[1]
+            if result[0]:
                 self.health += 2
                 self.score += 10
             else:

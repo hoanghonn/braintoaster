@@ -16,3 +16,9 @@ def font_blit(screen, center, size, text, color, background_color = None):
 def terminate():
     pygame.quit()
     sys.exit()
+
+def drawHealth(screen, health):
+    health_width = health / 100.0 * 450
+    health_bar = (0,0, health_width, 50)
+
+    pygame.draw.rect(screen, (255,0,0), health_bar)

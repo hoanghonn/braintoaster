@@ -15,7 +15,7 @@ class Mode:
     def __init__(self):
         return
 
-    def play_game(self):
+    def play_game(self, screen, health):
         return None
 
 
@@ -24,6 +24,7 @@ class MathGame(Mode):
     result = ''
     correct_answer_rect = pygame.Rect(100, 700, 100, 100)
     wrong_answer_rect = pygame.Rect(350, 700, 100, 100)
+    fake_result = ''
 
     color = [ ('RED', 255,0,0), ('BLUE', 0,0,255)]
 
@@ -36,31 +37,35 @@ class MathGame(Mode):
         if random_rect == 0:
             self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
-    def play_game(self):
+    def play_game(self, screen, health):
 
+        cur_health = health
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    pygame.quit()
-                    sys.exit
+                    terminate()
                 elif event.type == MOUSEBUTTONUP:
                     mousex, mousey = event.pos
                     if self.correct_answer_rect.collidepoint(mousex, mousey):
-                        return True
+                        return (True, cur_health)
                     elif self.wrong_answer_rect.collidepoint(mousex, mousey):
-                        return False
-
-        return False
+                        return (False, cur_health)
+                else: self.draw(screen, cur_health)
+            self.draw(screen, health)
 
     def set_up_game(self):
         self.math_string = self._get_string()
         self.result = self._calculate_result()
         random_rect = randrange(0, 2)
+        rand_diff = randint(-10, 11)
+        self.fake_result = self.result + rand_diff
 
         if random_rect == 0:
             self.correct_answer_rect, self.wrong_answer_rect = self.wrong_answer_rect, self.correct_answer_rect
 
-    def draw(self, screen):
+        #self.draw(screen, health)
+
+    def draw(self, screen, health, sec):
         screen.fill(BLUE)
         # draw math string
         font_blit(screen, (250, 300), 60, self.math_string, RED)
@@ -75,12 +80,14 @@ class MathGame(Mode):
 
         pygame.draw.rect(screen, WHITE, self.wrong_answer_rect)
 
-        rand_diff = randint(-10, 11)
-        fake_result = self.result + rand_diff        # change later
-
         wrong_answer_rect = (self.wrong_answer_rect.left + self.wrong_answer_rect.width/2,
                              self.wrong_answer_rect.top + self.wrong_answer_rect.height/2)
-        font_blit(screen, wrong_answer_rect, 30, str(fake_result), GREEN)
+        font_blit(screen, wrong_answer_rect, 30, str(self.fake_result), GREEN)
+
+        # draw health
+        drawHealth(screen, health)
+        # draw clock
+        #drawTime(clock, screen)
 
         pygame.display.update()
 
