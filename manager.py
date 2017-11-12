@@ -6,7 +6,7 @@ from random import *
 
 class Manager:
 
-    numberOfGame = 2
+    numberOfGame = 1
     health = 100
     game = []
     score = 0
