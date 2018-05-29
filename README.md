@@ -1,4 +1,4 @@
-# braintoaster
+# braintoaster :clubs:
 
 Product for HackHolyoke 2017 
 
